@@ -1,0 +1,42 @@
+
+********************************************************************
+you can use current generated files:
+	sqlQuery.csv has all INSERT queries
+
+otherwise you need to delete all files in output/, outputsubjects/, sqlQuery.csv, people.csv
+and follow below instructions from very begining
+
+************************************************************************
+
+
+$ mysql -u xxx -p < enron.sql
+will import the email database. It has around 260000 emails.
+
+$ python peopleGen.py Facebook.csv
+this will read Facebook.csv to generate people.csv which only has firstname and email address
+
+$ python emailGen.py #number
+will generate #number of emails, storing in output/ folder
+Each file is named in format of index__someoneEmail, so if later need to be import to database, just remove index__ will get the sender's email
+
+structure of the folder:
+	unnecessary/   this stores general paragraphs which doesn't have actual meaning, but to fill the space. It has several parts in different files, like greetings, last sentence, etc
+	necessary/     this stores actual information to generate email. Currently it has sentences to describe favorite things or work/education history
+	favorite/      any files containing hobbys, favorite food, color, etc, goes to this folder. all files should list one favorite thing per line.
+	works/         any files containing education, working, internship, etc, goes to this folder. all files should list one full history list per line
+	output/        stores output emails
+	people.csv     all sender information is randomly picked from this file, it need to be in the format of name,email
+	enron.sql	this is a very big email database, which will not be in github
+	outputsubjects/  store corresponding subjects of emails in output/
+
+Around half of the email generated will come from database, but processed to eliminate receiver name or anything refering 'enron'. However, the processing is rough so still some might contain inproper information which doesn't make sense.
+
+The other half will be generated in one of these category: 1, just greetings. 2, talking about favorites. 3, talking about working/education.
+
+
+
+------------------------------------------------------------------------
+$ python createSqlQuery.py
+will generate a file called sqlQuery.csv, which contains all INSERT queries
+
+
